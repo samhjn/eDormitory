@@ -1,0 +1,41 @@
+{% extends 'frame.html' %}
+{% block title %}控制器{% endblock %}
+{% block body %}
+<h1>控制器</h1>
+    {% for item in switches %}
+        <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">{{ item.name }}<div style="float:right"><span class="glyphicon glyphicon-cog" onclick="showSwitchSettings({{ item.id }});"></span></div></div>
+  <div class="panel-body">
+      <p>状态:<span id="status{{ item.id }}">
+          {% if item.status == 0 %}关闭{% endif %}
+          {% if item.status == 1 %}开启{% endif %}
+          {% if item.status == 2 %}待命{% endif %}
+          {% if item.status == 3 %}动作中...{% endif %}
+        </span>
+      </p>
+      <button id="button{{ item.id }}" class="btn btn-primary" {% if item.status == 3 %}disabled="disabled"{% endif %} onclick="actionSwitch({{ item.id }},{{ item.status }})">
+          {% if item.status == 0 %}开启{% endif %}
+          {% if item.status == 1 %}关闭{% endif %}
+          {% if item.status == 2 %}触发{% endif %}
+          {% if item.status == 3 %}请等待...{% endif %}
+      </button>
+  </div>
+</div>
+    {% endfor %}
+{% endblock %}
+{% block scripts %}
+    <script lang="javascript">
+    function showSwitchSettings(id)
+    {
+        $('#eDomitoryModalTitle').html("控制器设置");
+        $('#eDomitoryModalContent').html("控制器"+id+"</br>重命名");
+        $('#eDomitoryModal').modal();
+    }
+
+    function actionSwitch(id,status)
+    {
+        alert("已获取id"+id+"stauts"+status+"\n功能未实现\n");
+    }
+    </script>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'frame.html' %}
+{% block title %}主页{% endblock %}
+{% block body %}
+            <div class="jumbotron">
+            <h1>欢迎</h1>
+            <p>请选择下面的一个按钮开始</p>
+            <button class="btn btn-primary" onclick="window.location.href='/switch/'">开关控制</button>
+            <button class="btn btn-primary" onclick="window.location.href='/sensor/'">数据监控</button>
+            </div>
+{% endblock %}
