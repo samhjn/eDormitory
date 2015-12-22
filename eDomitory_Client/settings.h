@@ -12,4 +12,4 @@ rolePin[1] 1=Lasting switch  0=Moment switch
 rolePin[2] 1=HIGH default   0=Low default
 */
 
-const int REFRESH_COUNT=100000;
+const int REFRESH_COUNT=10000;

@@ -17,7 +17,47 @@ int refreshCount=0;
 
 void doClientRefresh()
 {
-  
+  struct command cmd;
+  long data[4]={0};
+
+  data[0]=id;
+  data[1]=role;
+  data[3]=switches[0]->getState();
+  varToCommand(1,data,&cmd);
+  Mirf.send((byte*)&cmd);
+}
+
+int doSensorUpload()
+{
+  //TODO
+}
+
+void doAction(long action,long data)
+{
+  switch(action)
+  {
+    case 3: if (role/4!=0)
+            {
+              switches[0]->switchAction();
+              Serial.println("Switch moved");
+            }else
+            {
+              Serial.println("Invalid Action");
+            }
+            break;
+    case 5: if (role/4!=0)
+            {
+              doSensorUpload();
+              Serial.println("Data uploaded");
+            }
+            else
+            {
+              Serial.println("Invalid Action");
+            }
+            break;
+    default: Serial.println("Invalid Action");
+            break;
+  }
 }
 
 void setup() {
@@ -74,6 +114,9 @@ void loop() {
    byte MirfRecieved[Mirf.payload];
    struct command commandRecieved;
 
+   long action;
+   long data;
+
    refreshCount+=1;
    refreshCount%=REFRESH_COUNT;
   
@@ -82,7 +125,10 @@ void loop() {
     Serial.println("Got command");
     Mirf.getData(MirfRecieved);
     commandRecieved=(*(struct command *)MirfRecieved);
-    //if ()
+    commandToVar(commandRecieved,1,&action,&data);
+    doAction(action,data);
+    doClientRefresh();
+    refreshCount=2;
   }
 
   if (refreshCount==1)

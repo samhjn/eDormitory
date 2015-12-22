@@ -101,4 +101,9 @@ class switchCtrl
     {
       this->switchDelay=delay;
     }
+
+    int getState()
+    {
+      return this->switchState;
+    }
 };
