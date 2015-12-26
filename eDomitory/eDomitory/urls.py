@@ -13,4 +13,8 @@ urlpatterns = patterns('',
     url(r'^switch/','manager.views.switch', name='switch'),
     url(r'^sensor/','manager.views.sensor', name='sensor'),
     url(r'^settings/','manager.views.settings', name='settings'),
+    url(r'^api/server/login/','api.server.views.login', name='login_server'),
+    url(r'^api/server/switchUpdate/','api.server.views.switchUpdate', name='switchUpdate'),
+    url(r'^api/client/notify/','api.client.views.notify', name='notify'),
+
 )

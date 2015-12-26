@@ -50,7 +50,7 @@
           {% if loggedIn == 1 %}
               <li><a href="/logout/">登出</a></li>
           {% else %}
-              <li><a href="javascript:void(0)">登入</a></li>
+              <li><a href="javascript:void(0)" onclick="getLogin()">登入</a></li>
           {% endif %}
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -78,6 +78,15 @@
     </div>
     <script lang="javascript" src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script lang="javascript" src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+    <script lang="javascript">
+        function getLogin()
+        {
+            $.get('/api/server/login/');
+            $('#eDomitoryModalTitle').html("登陆");
+            $('#eDomitoryModalContent').html('已登陆');
+            $('#eDomitoryModal').modal();
+        }
+    </script>
     {% block scripts %}
     {% endblock %}
 </body>
