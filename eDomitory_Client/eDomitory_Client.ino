@@ -33,7 +33,7 @@ sensorCtrl *sensors[1];
 
 int refreshCount=0;
 
-void doClientRefresh()
+void doClientRefresh() //Call mid system to refresh
 {
   struct command cmd;
   long data[4]={0};
@@ -50,7 +50,7 @@ int doSensorUpload()
   //TODO
 }
 
-void doAction(long action,long data)
+void doAction(long action,long data) //Take action
 {
   switch(action)
   {
@@ -78,7 +78,8 @@ void doAction(long action,long data)
   }
 }
 
-void setup() {
+void setup() //Function run once to init the system 
+{
   int i;
   char addr[6];
   
@@ -86,18 +87,18 @@ void setup() {
   {
     id*=2;
     if (analogRead(idPin[i])>512) id++;
-  }
+  }//Read the device id 
   
   for (i=0;i<3;++i)
   {
     pinMode(rolePin[i],INPUT_PULLUP);
-  }
+  }//Prepare to read the device role
 
   for (i=0;i<3;++i)
   {
     role=role*2;
     role+=digitalRead(rolePin[i]);
-  }
+  }//Read the device role
 
   if (role/4!=0)
   {
@@ -106,19 +107,18 @@ void setup() {
   else
   {
     sensors[0]=new sensorCtrl(role,sensorPin[0]);
-  }
+  }//Create control class
 
   sprintf(addr,"cli%02d",id);
-  
-  Serial.begin(9600);
-
   Mirf.spi = &MirfHardwareSpi;
   Mirf.init();
   Mirf.setRADDR((byte *)addr);
   Mirf.setTADDR((byte *)"serv0");
   Mirf.payload = sizeof(command);
   Mirf.config();
+  //Init nRF24L01+ module
 
+  Serial.begin(9600);
   Serial.println("Beginning ... "); 
   Serial.print("ID:");
   Serial.println(id);
@@ -126,6 +126,7 @@ void setup() {
   Serial.println(addr);
   Serial.print("Role:");
   Serial.println(role);
+  //Init serial and output debug information
 }
 
 void loop() {
@@ -136,9 +137,9 @@ void loop() {
    long data;
 
    refreshCount+=1;
-   refreshCount%=REFRESH_COUNT;
+   refreshCount%=REFRESH_COUNT;  
   
-  if (Mirf.dataReady())
+  if (Mirf.dataReady()) //Recieve command and take action
   {
     Serial.println("Got command");
     Mirf.getData(MirfRecieved);
@@ -149,7 +150,7 @@ void loop() {
     refreshCount=2;
   }
 
-  if (refreshCount==1)
+  if (refreshCount==1) //Refresh or register client information in a period of time 
   {
     doClientRefresh();
   }

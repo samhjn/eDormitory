@@ -1,3 +1,4 @@
+//TODO: Reconstruct this class with real OOP method
 class switchCtrl
 {
   private:
@@ -10,7 +11,7 @@ class switchCtrl
     {
       pinMode(this->switchPin,INPUT);
       
-      switch(this->switchMode)
+      switch(this->switchMode) //Naive!
       {
         case 0:this->switchInit_0();
         break;
@@ -76,7 +77,7 @@ class switchCtrl
     }
     
   public:
-    switchCtrl(int mode,int pin)
+    switchCtrl(int mode,int pin)//Init
     {
       this->switchMode=mode;
       this->switchPin=pin;
@@ -84,9 +85,9 @@ class switchCtrl
       this->switchInit();
     }
     
-    void switchAction()
+    void switchAction()//Take action via sub function
     {
-      switch(this->switchMode)
+      switch(this->switchMode)  //Naive!
       {
         case 0:this->switchAction_0();
         break;

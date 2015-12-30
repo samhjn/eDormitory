@@ -11,7 +11,7 @@ struct command
   long commandData[DATA_COUNT];
 };
 
-int commandToVar(struct command cmd,int dataType,long *action,long *data)
+int commandToVar(struct command cmd,int dataType,long *action,long *data) //Convert package to variables
 {
   int i;
   if (cmd.commandHeader[0]!=0xdc)
@@ -35,7 +35,7 @@ int commandToVar(struct command cmd,int dataType,long *action,long *data)
   return 1;
 }
 
-int varToCommand(int action,const long *data,struct command *cmd)
+int varToCommand(int action,const long *data,struct command *cmd) //Convert variables to package
 {
   int i;
   

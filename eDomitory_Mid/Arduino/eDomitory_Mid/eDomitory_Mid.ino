@@ -33,13 +33,15 @@ int recieverId=10;
 char addr[6];
 
 void setup() {
-  Serial.begin(9600);
+  //Function that only run once to init the chip
+
+  Serial.begin(9600);  //Init serial communication
 
   Mirf.spi = &MirfHardwareSpi;
   Mirf.init();
   Mirf.setRADDR((byte *)"serv0");
   Mirf.payload = sizeof(command);
-  Mirf.config();
+  Mirf.config();  //Init nRF24L01+ module
 
   //Serial.println("Waiting ... "); 
 }
@@ -48,11 +50,12 @@ void loop() {
   byte MirfRecieved[Mirf.payload];
   struct command commandRecieved;
   
-  if (Mirf.dataReady())
+  if (Mirf.dataReady()) //Recieve package if there is any
   {
     Mirf.getData(MirfRecieved);
-    commandRecieved=(*(struct command *)MirfRecieved);
-    if(commandToVar(commandRecieved,0,&action,data))
+    commandRecieved=(*(struct command *)MirfRecieved); //Get package
+    
+    if(commandToVar(commandRecieved,0,&action,data))  //Transport package to Raspberry Pi
     {
       Serial.println(action);
       for (int i=0;i<DATA_COUNT-1;++i)
@@ -67,7 +70,7 @@ void loop() {
     }
   }
   
-  if (!Mirf.isSending())
+  if (!Mirf.isSending())  //Send package if there is any
   {
     if (Serial)
     {
@@ -75,14 +78,18 @@ void loop() {
       for (int i=0;i<DATA_COUNT-1;++i)
       {
         data[i] = Serial.parseInt();
-      }
-    varToCommand(action,data,&cmd);
-    sprintf(addr,"cli%02d",recieverId);
-    //Serial.println(addr);
-    Mirf.setTADDR((byte *)addr);
-    Mirf.send((byte *)&cmd);
-    //Serial.println("Command sent.");
-    resetFunc();
+      }//Get command from Raspberry Pi
+      
+      varToCommand(action,data,&cmd); //Make package
+      
+      sprintf(addr,"cli%02d",recieverId); 
+      //Serial.println(addr);
+      Mirf.setTADDR((byte *)addr);
+      Mirf.send((byte *)&cmd);
+      //Serial.println("Command sent.");
+      //Send package
+      
+      resetFunc();//Reset is requred or next package won't be sent
     }
   }
 }

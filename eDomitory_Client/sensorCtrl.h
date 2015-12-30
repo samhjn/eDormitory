@@ -9,7 +9,7 @@ class sensorCtrl
       
     }
   public:
-    sensorCtrl(int mode,int pin)
+    sensorCtrl(int mode,int pin) //Register the sensor
     {
       this->sensorMode=mode;
       this->sensorPin=pin;
@@ -17,7 +17,7 @@ class sensorCtrl
       this->sensorInit();
     }
 
-    int sensorRead()
+    int sensorRead() //Get the number
     {
       return analogRead(this->sensorPin);
     }
