@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
     eDomitory
-    Copyright (C) 2015  Samhjn
+    Copyright (C) 2015-2016  Samhjn
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
